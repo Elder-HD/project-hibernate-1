@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +25,6 @@ public class PlayerRepositoryDB implements IPlayerRepository {
         prop.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
         prop.setProperty(Environment.DRIVER, "com.p6spy.engine.spy.P6SpyDriver");
         prop.setProperty(Environment.URL, "jdbc:p6spy:mysql://localhost:3306/rpg");
-//        prop.setProperty(Environment.URL,"jdbc:mysql://localhost:3306/rpg");
-//        prop.setProperty(Environment.DRIVER,"com.mysql.cj.jdbc.Driver");
         prop.setProperty(Environment.USER, "root");
         prop.setProperty(Environment.PASS, "root");
         prop.setProperty(Environment.SHOW_SQL,"false");
@@ -45,9 +42,6 @@ public class PlayerRepositoryDB implements IPlayerRepository {
             return session.createNativeQuery("SELECT * FROM rpg.player", Player.class)
                     .setFirstResult(pageNumber * pageSize)
                     .setMaxResults(pageSize)
-//            return session.createNativeQuery("SELECT * FROM player LIMIT :limit OFFSET :offset", Player.class)
-//                    .setParameter("limit", pageSize)
-//                    .setParameter("offset", pageNumber * pageSize)
                     .list();
         }
     }
@@ -66,7 +60,6 @@ public class PlayerRepositoryDB implements IPlayerRepository {
             Transaction tx = session.beginTransaction();
             session.persist(player);
             tx.commit();
-            System.out.println(player.getId()   );
         }
         return player;
     }
